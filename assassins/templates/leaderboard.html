@@ -1,0 +1,43 @@
+<html>
+<head>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/style.css" />
+</head>
+<title>{{ dorm_name }} Assassins</title>
+<body>
+<div id="wrap">
+<h1 id="header_home"><span class="sitename">Alondra Assassins</span></h1>
+<div id="content">
+   <div id="topnav">
+    <div id="topnavmain">
+
+   <ul id="nav">
+    <li><a href="/">Home</a></li>
+    <li class="active"><a href="/leaderboard">Leaderboard</a> </li>
+   </ul>
+ </div>
+ </div>
+<div class="post">
+<table>
+  <tr><th></th><th>Assassin</th><th>Kills</th></tr>
+  {% for person in people %}
+  <tr><td><div style="positon:relative; width:40px; height:40px">  {% if person.has_photo %}
+  <div style="position:absolute; z-index:0"><img src='/media/photos/{{ person.sunetid }}.jpg' width='40px' height='40px'/></div>
+  {% else %}
+  <div style="position:absolute; z-index:0"><img src='/media/photos/person.png' width='40px' height='40px'/></div>
+  {% endif %}
+  {% if person.status == 1 %}
+  <div style="position:absolute; z-index:1"><img src='/media/photos/xout.png' width='40px' height='40px' /></div>
+  {% endif %}
+  </div></td>
+  <td> {{ person.name }}</td><td>{{ person.kills }}</td></tr>
+  {% endfor %}
+</table>
+
+</div>
+</div>
+</div>
+<div id="footer">
+  Logged in as {{ current_person.sunetid }}. <a href="/webauth/logout">Logout</a>
+</body>
+</html>

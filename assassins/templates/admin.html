@@ -1,0 +1,37 @@
+<html>
+<body>
+<h1>Users</h1>
+{% if users %}
+<ul>
+  {% for user in users %}
+    <li>{% if user.has_photo %}<img src='/media/photos/{{ user.sunetid }}.jpg' width='10px' height='10px'/>{% endif %}{{ user.name }} ({{ user.sunetid }}) {{ user.kills }}<form name='update_user' action='/admin/update_user'  enctype="multipart/form-data" method='post'>
+          <input type='hidden' name='sunetid' value='{{ user.sunetid }}' />
+          Has Image:<input type='checkbox' name='photo' {% if user.has_photo %}checked{% endif %} value='true' />
+          <input type='submit' name='update' value='Delete' />
+          <input type='submit' name='update' value='Update' />
+        </form>
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+No Users found.
+{% endif %}
+<h1>Contracts</h1>
+{% if contracts %}
+<ul>
+  {% for contract in contracts %}
+    <li>{{ contract.assassin.name }}->{{ contract.target.name }}: {{ contract.status_string }} {% if contract.status == 1 or contract.status == 4 %}<form name="finish_contract" action='/confirm_death' method='post'><input type='hidden' name='sunetid' value='{{ contract.target.sunetid }}' /><input type='submit' name='submit' value='Confirm Assassination' /></form>{% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+No Contracts found.
+{% endif %}
+<form name='init_contracts' action='/admin/init_contracts' method='post'>
+  <input type='submit' value='Initialize Contracts'/>
+</form>
+<form name='scramble_remaining' action='/admin/scramble_remaining' method='post'>
+  <input type='submit' value='Scramble Remaining'/>
+</form>
+</body>
+</html>

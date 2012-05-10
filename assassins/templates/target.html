@@ -1,0 +1,180 @@
+<html>
+<head>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/style.css" />
+</head>
+<title>Alondra Assassins</title>
+<body>
+<div id="wrap">
+<h1 id="header_home"><span class="sitename">{{ dorm_name }} Assassins</span></h1>
+<div id="content">
+   <div id="topnav">
+ <div id="topnavmain">
+
+ <ul id="nav">
+
+ <li class="active"><a href="/">Home</a></li>
+ <li><a href="/leaderboard">Leaderboard</a> </li>
+ </ul>
+ </div>
+ </div>
+<div class="post">
+<div style="positon:relative; height:200px">
+  {% if current_user.has_photo %}
+  <div style="position:absolute; z-index:0"><img src='/media/photos/{{ current_user.sunetid }}.jpg' width='200px' height='200px'/></div>
+  {% else %}
+  <div style="position:absolute; z-index:0"><img src='/media/photos/person.png' width='200px' height='200px'/></div>
+  {% endif %}
+  {% if current_user.status == 1 %}
+  <div style="position:absolute; z-index:1"><img src='/media/photos/xout.png' width='200px' height='200px' /></div>
+  {% endif %}
+  {% if current_user.status == 2 %}
+    <h1 style="margin-left:200px">You have been reported as terminated. Click <a href="/confirm_death">here</a> to confirm.</h1>
+  {% endif %}
+</div>
+<div class="post">
+<p>
+  <b>Assassin</b>: {{ current_user.name }}<br />
+  <b>Kills</b>: {{ current_user.kills }}
+</p>
+</div>
+</div>
+{% if current_user.status == 1 %}
+<div class="post">
+  <h1>Termination List</h1>
+  {% if termination_list %}
+  <table>
+    <tr><th>Assassin</th></tr>
+    {% for person in termination_list %}
+    <tr>
+      <td style="width:40px;">
+        <div style="positon:relative; height:40px;width:40px; float:left">
+        {% if person.has_photo %}
+        <div style="position:absolute; z-index:0"><img src='/media/photos/{{ current_contract.target.sunetid }}.jpg' width='40px' height='40px'/></div>
+        {% else %}
+        <div style="position:absolute; z-index:0"><img src='/media/photos/person.png' width='40px' height='40px'/></div>
+        {% endif %}
+      </td>
+      <td>{{ person.name }}</td>
+      <td>
+        <form action='/report_kill' method='POST'>
+          <input type='hidden' name='sunetid' value='{{ person.sunetid }}' />
+          <input type='submit' value='Report Termination' />
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    No available termination contracts.
+  {% endif %}
+</div>
+{% elif current_contract %}
+<div class="post">
+<h1>Your Current Contract</h1>
+<table>
+  <tr><th>Contract</th><th>Status</th><th>Time Left</th></tr>
+  <tr><td style="width:40px;">
+        <div style="positon:relative; height:40px;width:40px; float:left">
+        {% if current_contract.target.has_photo %}
+        <div style="position:absolute; z-index:0"><img src='/media/photos/{{ current_contract.target.sunetid }}.jpg' width='40px' height='40px'/></div>
+        {% else %}
+        <div style="position:absolute; z-index:0"><img src='/media/photos/person.png' width='40px' height='40px'/></div>
+        {% endif %}
+      </div>
+    </td>
+    <td>{{ current_contract.target.name }}</td>
+    <td>{{ current_contract.status_string }}</td>
+    <td id='time_left'></td>
+  </tr>
+</table>
+<form action='/report_kill' method='POST'>
+  <input type='hidden' name='sunetid' value='{{ current_contract.target.sunetid }}' />
+  <input type='submit' value='{% if current_contract.status == 0 %} Report Kill {% else %} Nudge Confirmation {% endif %}' />
+</form>
+</div>
+{% else %}
+<div class="post">
+  <h1>Current Contract</h1>
+  <p>You have no available contracts at this time.</p>
+</div>
+{% endif %}
+<div class="post">
+<h1>Your Completed Contracts</h1>
+{% if completed_contracts %}
+<table>
+  {% for contract in completed_contracts %}
+    <tr><td style="width:40px;">
+        <div style="positon:relative; height:40px; width:40px;float:left;">
+        {% if contract.target.has_photo %}
+        <div style="position:absolute; z-index:0"><img src='/media/photos/{{ contract.target.sunetid }}.jpg' width='40px' height='40px'/></div>
+        {% else %}
+        <div style="position:absolute; z-index:0"><img src='/media/photos/person.png' width='40px' height='40px'/></div>
+        {% endif %}
+        <div style="position:absolute; z-index:1"><img src='/media/photos/xout.png' width='40px' height='40px' /></div>
+      </div>
+    </td>
+    <td>{{ contract.target.name }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}
+No Contracts found.
+{% endif %}
+</div>
+<div class="post">
+  <h1>Rules</h1>
+  <h2>Important</h2>
+    <p>You must kill your target without being seen by anyone else in {{ dorm_name }}! <b>A kill is valid if no witness can see both the shooter and the target.</b></p>
+    <p>Be mindful of people who are not playing Assassins! Please do <b>not</b> shoot them!<p>
+  <h2>Safe Zones</h2>
+  <ul>
+    <li>The target's own room.</li>
+    <li>Classrooms (outside class is fair game).</li>
+    <li>The dining hall <b>during dining hours</b></li>
+    <li>Bathrooms.</li>
+    <li>House meeting.</li>
+  </ul>
+  <h2>Defense</h2>
+  <p>You can defend yourself by shooting potential assassins, giving yourself a <b>{{ defend_time }} minute buffer</b> where you cannot be killed by them.</p>
+  <h2>Terminators</h2>
+  <p>You must kill your target before your time runs out. If you fail, a terminator will be sent to kill you.</p>
+  <p>Terminators must follow all of the rules however you cannot defend against them.</p>
+</div>
+</div>
+</div>
+<div id="footer">Logged in as: {{ current_user.sunetid }} <a href="/webauth/logout">Logout</a></div>
+<script>
+  function updateClock(hours,minutes,seconds) {
+    if(seconds < 0) {
+      seconds = 59;
+      minutes--;
+    }
+    if (minutes < 0) {
+      minutes = 59;
+      hours--;
+    }
+    if (hours < 0) {
+      $('#time_left').html("NONE");
+      return;
+    }
+    seconds_str = seconds;
+    if (seconds < 10) {
+      seconds_str = "0" + seconds;
+    }
+    minutes_str = minutes;
+    if (minutes < 10) {
+      minutes_str = "0" + minutes;
+    }
+    hours_str = hours;
+    if (hours < 10) {
+      hours_str = "0" + hours;
+    }
+    $('#time_left').html(hours_str + ":" + minutes_str + ":" + seconds_str);
+    if (hours != 0) {
+      setTimeout('updateClock(' + hours + "," + minutes + "," + (seconds - 1) + ")", 1000);
+    }
+  }
+  updateClock({{ hours }}, {{ minutes }}, {{ seconds }});
+</script>
+</body>
+</html>
