@@ -156,9 +156,11 @@ def report_kill(request):
 
 @login_required
 def confirm_death(request):
-  current_person = Person.objects.get(sunetid=request.user.username)
+  current_person = None
   if request.user.username in settings.ADMIN_SUNETID: #Allows admins to force confirm death
     current_person = Person.objects.get(sunetid=request.POST['sunetid'])
+  else:
+    current_person = Person.objects.get(sunetid=request.user.username)
   if not current_person:
     return render_to_response('message.html', {'message' : "You aren't in the game.", 'user' : current_person})
   completed_contract = Contract.objects.filter(target=current_person).filter(Q(status=ContractStatus.PENDING) | Q(status=ContractStatus.PENDING_TERMINATED))
