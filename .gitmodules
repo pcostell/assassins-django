@@ -1,3 +1,0 @@
-[submodule "Django-WebAuth"]
-	path = Django-WebAuth
-	url = git://github.com/trusheim/Django-WebAuth.git
