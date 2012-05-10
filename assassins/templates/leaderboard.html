@@ -29,7 +29,7 @@
   {% if person.status == 1 and current_user.status == 1 %}
   <div style="position:absolute; z-index:1"><img src='/media/photos/xout.png' width='40px' height='40px' /></div>
   {% endif %}
-  {% if person.status == 1 and current_user.status == 0 %}
+  {% if current_user.status == 0 %}
   <div style="position:absolute; z-index:1"><img src='/media/photos/question.png' width='40px' height='40px' /></div>
   {% endif %}
   </div></td>
