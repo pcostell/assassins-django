@@ -17,24 +17,34 @@ DATABASES = {
 }
 
 
-
-ADMIN_SUNETID = ['']
+#Assassins configurations
+ADMIN_SUNETID = [''] #note that if you are an admin, some of the features won't work if you try to play (such as confirming death)
 TERMINATION_START = 48 # the number of hours that an assassin has to make their kill.
 DEFEND_TIME = 15 # the time in minutes that a target is safe after shooting their assassin.
 DORM_NAME = ''
 
-WEBAUTH_SHARED_SECRET = ''
-WEBAUTH_URL = ''
+# Webauth configuration
+WEBAUTH_SHARED_SECRET = '' # just some random secret
+WEBAUTH_URL = '' # i.e. http://www.stanford.edu/~USERNAME/cgi-bin/wa-authenticate.php
 LOGIN_URL = '/webauth/login'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-BASE_URL = ''
+BASE_URL = '' # i.e. http://www.google.com/
 
+# Email configuration
 EMAIL_HOST = ''
 EMAIL_PORT = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = ''
+
+MEDIA_ROOT = '' # should be /path/to/project/media/
+MEDIA_URL = '/media/'
+STATIC_ROOT = '' # should be /path/to/project/static/
+STATIC_URL = '/static/'
+
+# Make sure you add the MEDIA_URL and STATIC_URL to your Apache2 site config
+# as an alias to the MEDIA_ROOT and STATIC_ROOT
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -62,25 +72,6 @@ USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
-
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-STATIC_URL = ''
 
 # List of finder classes that know how to find static files in
 # various locations.

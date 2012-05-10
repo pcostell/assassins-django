@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, '/var/django/assassins/')
+sys.path.insert(0, '') # Put path to project here.
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'assassins_project.settings'
 
