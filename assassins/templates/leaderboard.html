@@ -28,7 +28,8 @@
   {% endif %}
   {% if person.status == 1 and current_person.status == 1 %}
   <div style="position:absolute; z-index:1"><img src='/media/photos/xout.png' width='40px' height='40px' /></div>
-  {% elif person.status == 1 and current_person.status == 0 %}
+  {% endif %}
+  {% if person.status == 1 and current_person.status == 0 %}
   <div style="position:absolute; z-index:1"><img src='/media/photos/question.png' width='40px' height='40px' /></div>
   {% endif %}
   </div></td>
