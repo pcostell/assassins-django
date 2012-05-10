@@ -20,7 +20,7 @@ DATABASES = {
 
 ADMIN_SUNETID = ['']
 TERMINATION_START = 48 # the number of hours that an assassin has to make their kill.
-DEFEND_TME = 15 # the time in minutes that a target is safe after shooting their assassin.
+DEFEND_TIME = 15 # the time in minutes that a target is safe after shooting their assassin.
 DORM_NAME = ''
 
 WEBAUTH_SHARED_SECRET = ''
