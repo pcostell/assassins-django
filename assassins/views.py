@@ -34,6 +34,15 @@ def new_user(request):
   return redirect('/')
 
 @login_required
+def email(request):
+  if request.user.username not in settings.ADMIN_SUNETID:
+    return render_to_response('message.html', {'message' :  'You aren\'t authorized to view that page.', 'user' : current_person, 'dorm_name' : settings.DORM_NAME})
+
+  people = list(Person.objects.filter(status=PersonStatus.ALIVE))
+  email = EmailMessage(request.POST['subject'], request.POST['message'], settings.DEFAULT_FROM_EMAIL, people, [settings.DEFAULT_FROM_EMAIL])
+  email.send()
+
+@login_required
 def update_user(request):
   if request.user.username not in settings.ADMIN_SUNETID:
     return render_to_response('message.html', {'message' :  'You aren\'t authorized to view that page.', 'user' : current_person, 'dorm_name' : settings.DORM_NAME})
