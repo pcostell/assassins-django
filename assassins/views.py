@@ -79,9 +79,12 @@ def scramble_remaining(request):
   if request.user.username not in settings.ADMIN_SUNETID:
     return render_to_response('message.html', {'message' : 'You aren\'t authorized to view that page.', 'user' : current_person})
   old_contracts = Contract.objects.filter(status=ContractStatus.ACTIVE)
-
+  pending_contracts = Contract.objects.filter(Q(status=ContractStatus.PENDING) | Q(status=ContractStatus.PENDING_TERMINATED))
   for contract in old_contracts:
     contract.status = ContractStatus.INCOMPLETE
+    contract.save()
+  for contract in pending_contracts:
+    contract.status = ContractStatus.COMPLETE
     contract.save()
 
   people = get_people(request.POST['start_list'].split(), list(Person.objects.filter(status=PersonStatus.ALIVE)))
