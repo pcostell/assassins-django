@@ -81,7 +81,7 @@ def scramble_remaining(request):
 
   people = get_people(request.POST['start_list'].split(), list(Person.objects.filter(status=PersonStatus.ALIVE)))
 
-  for i in range(people):
+  for i in range(len(people)):
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
     c.save()
     send_contract_email(c.assassin.sunetid, c.target.name().split()[0])
@@ -95,7 +95,7 @@ def init_contracts(request):
 
   people = get_people(request.POST['start_list'].split(), list(Person.objects.all()))
 
-  for i in range(people):
+  for i in range(len(people)):
     people[i].status = PersonStatus.ALIVE
     people[i].save()
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
