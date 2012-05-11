@@ -39,8 +39,9 @@ def email(request):
     return render_to_response('message.html', {'message' :  'You aren\'t authorized to view that page.', 'user' : current_person, 'dorm_name' : settings.DORM_NAME})
 
   people = map(lambda p: "%s@stanford.edu" % p.sunetid, list(Person.objects.filter(status=PersonStatus.ALIVE)))
-  email = EmailMessage(request.POST['subject'], request.POST['message'], settings.DEFAULT_FROM_EMAIL, people, [settings.DEFAULT_FROM_EMAIL])
-  email.send()
+  for to in people:
+    send_mail(request.POST['subject'], request.POST['message'], to)
+  return redirect('/admin/')
 
 @login_required
 def update_user(request):
