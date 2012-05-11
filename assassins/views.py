@@ -65,7 +65,7 @@ def update_user(request):
 def get_people(init_list, people_query):
   people = []
   for p in init_list:
-    people.append(Person.objects.get(sune tid=p))
+    people.append(Person.objects.get(sunetid=p))
 
   random.shuffle(people_query)
   for person in people_query:
