@@ -51,15 +51,28 @@ def update_user(request):
     p.save()
   return redirect('/admin/')
 
+
+def get_people(init_list, people_query):
+  people = []
+  for p in init_list:
+    people.append(Person.objects.get(sunetid=p))
+
+  random.shuffle(people_query)
+  for person in people_query:
+    if person not in people:
+      people.append(person)
+
+  return people
+
 @login_required
 def scramble_remaining(request):
   if request.user.username not in settings.ADMIN_SUNETID:
     return render_to_response('message.html', {'message' : 'You aren\'t authorized to view that page.', 'user' : current_person})
   Contract.objects.all().delete()
-  people = list(Person.objects.filter(status=PersonStatus.ALIVE))
-  indices = range(len(people))
-  random.shuffle(indices)
-  for i in indices:
+
+  people = get_people(request.POST['start_list'].split(), list(Person.objects.filter(status=PersonStatus.ALIVE)))
+
+  for i in range(people):
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
     c.save()
     send_contract_email(c.assassin.sunetid, c.target.name().split()[0])
@@ -70,9 +83,9 @@ def init_contracts(request):
   if request.user.username not in settings.ADMIN_SUNETID:
     return render_to_response('message.html', {'message' : 'You aren\'t authorized to view that page.', 'user' : current_person, 'dorm_name' : settings.DORM_NAME})
   Contract.objects.all().delete()
-  people = list(Person.objects.all())
-  indices = range(len(people))
-  random.shuffle(indices)
+
+  people = get_people(request.POST['start_list'].split(), list(Person.objects.all()))
+
   for i in indices:
     people[i].status = PersonStatus.ALIVE
     people[i].save()
