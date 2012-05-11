@@ -65,7 +65,7 @@ def update_user(request):
 def get_people(init_list, people_query):
   people = []
   for p in init_list:
-    people.append(Person.objects.get(sunetid=p))
+    people.append(Person.objects.get(sune tid=p))
 
   random.shuffle(people_query)
   for person in people_query:
@@ -78,7 +78,7 @@ def get_people(init_list, people_query):
 def scramble_remaining(request):
   if request.user.username not in settings.ADMIN_SUNETID:
     return render_to_response('message.html', {'message' : 'You aren\'t authorized to view that page.', 'user' : current_person})
-  old_contracts = Contract.objects.all()
+  old_contracts = Contract.objects.filter(status=ContractStatus.ACTIVE)
 
   for contract in old_contracts:
     contract.status = ContractStatus.INCOMPLETE
