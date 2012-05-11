@@ -29,19 +29,19 @@ No Contracts found.
 {% endif %}
 <h1>Initialize Contracts</h1>
 <form name='init_contracts' action='/admin/init_contracts' method='post'>
-  Partial Ordering (Optional): <input type='textarea' rows='20' cols='10' name='start_list' />
+  Partial Ordering (Optional): <textarea rows='20' cols='10' name='start_list' />
   <input type='submit' value='Initialize Contracts'/>
 </form>
 <h1>Scramble Contracts</h1>
 <form name='scramble_remaining' action='/admin/scramble_remaining' method='post'>
-  Partial Ordering (Optional): <input type='textarea' rows='20' cols='10' name='start_list' />
+  Partial Ordering (Optional): <textarea rows='20' cols='10' name='start_list' />
   <input type='submit' value='Scramble Remaining'/>
 </form>
 
 <h1>Email Alive Participants</h1>
 <form name='email' action='/admin/email' method='post'>
-  Subject: <input type='textarea' cols='20' rows='1' name='subject' />
-  Message: <input type='textarea' cols='80' rows='10' name='message' />
+  Subject: <textarea cols='20' rows='1' name='subject' /><br />
+  Message: <textarea cols='80' rows='10' name='message' />
   <input type='submit' value='Send'/>
 </form>
 
