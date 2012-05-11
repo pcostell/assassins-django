@@ -84,7 +84,7 @@ def scramble_remaining(request):
   for i in range(len(people)):
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
     c.save()
-    send_contract_email(c.assassin.sunetid, c.target.name().split()[0])
+    send_contract_email(c.assassin.sunetid, c.target.name())
   return redirect('/admin/')
 
 @login_required
