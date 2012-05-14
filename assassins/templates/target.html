@@ -50,7 +50,7 @@
       <td style="width:40px;">
         <div style="positon:relative; height:40px;width:40px; float:left">
         {% if person.has_photo %}
-        <div style="position:absolute; z-index:0"><img src='/media/photos/{{ current_contract.target.sunetid }}.jpg' width='40px' height='40px'/></div>
+        <div style="position:absolute; z-index:0"><img src='/media/photos/{{ person.target.sunetid }}.jpg' width='40px' height='40px'/></div>
         {% else %}
         <div style="position:absolute; z-index:0"><img src='/media/photos/person.png' width='40px' height='40px'/></div>
         {% endif %}
