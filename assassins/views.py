@@ -43,7 +43,7 @@ def email(request):
   people = map(lambda p: "%s@stanford.edu" % p.sunetid, list(Person.objects.filter(status=PersonStatus.ALIVE)))
   for to in people:
     send_mail(request.POST['subject'], request.POST['message'], to)
-    print "Sent to {0}".format(c.assassin.name())
+    print >> sys.stderr, "Sent to {0}".format(c.assassin.name())
     time.sleep(1)
   return redirect('/admin/')
 
@@ -97,7 +97,7 @@ def scramble_remaining(request):
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
     c.save()
     send_contract_email(c.assassin.sunetid, c.target.name())
-    print "Sent to {0}".format(c.assassin.name())
+    print >> sys.stderr, "Sent to {0}".format(c.assassin.name())
     time.sleep(1)
   return redirect('/admin/')
 
@@ -115,7 +115,7 @@ def init_contracts(request):
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
     c.save()
     send_contract_email(c.assassin.sunetid, c.target.name())
-    print "Sent to {0}".format(c.assassin.name())
+    print >> sys.stderr, "Sent to {0}".format(c.assassin.name())
     time.sleep(1)
   return redirect('/admin/')
 
