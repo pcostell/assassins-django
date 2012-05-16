@@ -43,7 +43,7 @@ def email(request):
   people = map(lambda p: "%s@stanford.edu" % p.sunetid, list(Person.objects.filter(status=PersonStatus.ALIVE)))
   for to in people:
     send_mail(request.POST['subject'], request.POST['message'], to)
-    print >> sys.stderr, "Sent to {0}".format(to.name())
+    print >> sys.stderr, "Sent to {0}".format(to)
     time.sleep(1)
   return redirect('/admin/')
 
