@@ -142,9 +142,9 @@ def view_target(request):
   if current_contracts:
     current_contract = current_contracts[0]
     time_left = (timedelta(hours=settings.TERMINATION_START) + (current_contract.start_time) - datetime.now(current_contract.start_time.tzinfo))
-    hours = int(time_left.total_seconds()/60/60)
-    minutes = int((time_left.total_seconds()/60)%60)
-    seconds = int((time_left.total_seconds()%60))
+    hours = int(total_seconds(time_left)/60/60)
+    minutes = int((total_seconds(time_left)/60)%60)
+    seconds = int((total_seconds(time_left)%60))
   return render_to_response('target.html', {'termination_list' : termination_list,
                                             'current_user' : current_person,
                                             'completed_contracts' : completed_contracts,
@@ -246,5 +246,6 @@ def send_pending_email(assassin_name, target_sunetid, target_first_name):
             'Hello %s,\n%s just killed you in our game of assassins. Please go to %s/confirm_death to confirm.\n' % (target_first_name, assassin_name, settings.BASE_URL),
             '%s@stanford.edu' % target_sunetid)
 
-
+def total_seconds(td):
+  return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 10**6
 
