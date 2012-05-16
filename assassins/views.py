@@ -10,6 +10,7 @@ from django.conf import settings
 
 from django.db.models import Q
 
+import time
 import random
 from datetime import datetime, timedelta
 
@@ -108,7 +109,9 @@ def init_contracts(request):
     people[i].save()
     c = Contract(assassin=people[i], target=people[(i+1)%len(people)], start_time=datetime.now(), status=ContractStatus.ACTIVE)
     c.save()
-    send_contract_email(c.assassin.sunetid, c.target.name().split()[0])
+    send_contract_email(c.assassin.sunetid, c.target.name())
+    print >> sys.stderr, "Sent to {0}".format(c.assassin.name())
+    time.sleep(1)
   return redirect('/admin/')
 
 @login_required
